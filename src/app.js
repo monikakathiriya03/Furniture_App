@@ -1,18 +1,34 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const port = 2727;
-const mongoose = require('mongoose');
-const morgan = require('morgan');
+const mongoose = require("mongoose");
+const port = process.env.PORT;
+const morgan = require("morgan");
+const path = require("path");
 
 app.use(express.json());
-const adminsRoutes = require('./routes/admin/index.routes')
-app.use('/api/admin',adminsRoutes);
+app.use(morgan("dev"));
 
-app.listen(port, (async) => {
-    // mongoose.connect('mongodb://127.0.0.1:27017/project')
-     mongoose.connect(process.env.Mongo_DB_URL)
-.then(()=>console.log('DB is Connected....'))
-.catch(err => console.log(err.message));
-console.log(`Server running at http://localhost:2727`);
+// Path For Set Product Images
+let imagePath = path.join(__dirname, "public", "images");
+app.use("/src/public/images", express.static(imagePath));
+
+// Admin Routes
+const adminsRoutes = require("./routes/admin/index.routes");
+app.use("/api/admin", adminsRoutes);
+
+// User Routes
+const usersRoutes = require("./routes/user/index.routes");
+app.use("/api/user", usersRoutes);
+
+app.listen(port, () => {
+  // Database connection
+  async function main() {
+    await mongoose.connect(process.env.MONGO_DB_URL);
+  }
+  main()
+    .then(() => console.log("DB is Connected...✔️"))
+    .catch((err) => console.log(err.message));
+
+  console.log(`Server start at http://localhost:${port}`);
 });

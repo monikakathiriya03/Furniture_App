@@ -8,8 +8,12 @@ exports.addNewProduct = async (req, res) => {
         if(product) {
             return res.status(400).json({message: 'Product is already exist...'});
         }
+        if(req.file){
+            req.body.productImage = req.file.path.replace(/\\/g, '/')
+        }
+        
         product = await productService.addNewProduct({...req.body});
-        res.status(201).json({product: product, message: 'New Product Added Successfully...'});
+        res.status(201).json({product: product, message: 'New Product Added Successfully...✅'});
 }
     catch(error){
         console.log(error);
@@ -49,8 +53,11 @@ exports.updateProduct = async (req, res) => {
         if(!product){
             return res.status(404).json({message: 'Product Not Found'});
         }
+        if(req.file){
+            req.body.productImage = req.file.path.replace(/\\/g, '/')
+        }
         product = await productService.updateProduct(product._id,{ ...req.body});
-        res.status(200).json({product,message: 'Product Updated Successfully...'});
+        res.status(200).json({product,message: 'Product Updated Successfully...✅'});
     } catch (error) {
         console.log(error);
         res.status(500).json({message: 'Internal Server Error'});
@@ -64,7 +71,7 @@ exports.deleteProduct = async (req, res) => {
             return res.status(404).json({message: 'Product Not Found'});
         }
         product = await productService.updateProduct(product._id,{isDelete: true});
-        res.status(200).json({product,message: 'Product Deleted Successfully...'});
+        res.status(200).json({product,message: 'Product Deleted Successfully...✅'});
     } catch (error) {
         console.log(error);
         res.status(500).json({message: 'Internal Server Error'});

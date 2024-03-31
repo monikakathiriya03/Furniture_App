@@ -1,6 +1,13 @@
-const adminsRoutes = require("express").Router();
+const adminRoutes = require('express').Router();
+const userRoutes = require('./admin.routes');
+const productRoutes = require('./product.routes');
+const cartRoutes = require('./cart.routes');
+const reviewRoutes = require('./review.routes');
 
-productRoutes = require("../../routes/admin/product.routes");
-adminsRoutes.use('/products', productRoutes);
 
-module.exports = adminsRoutes;
+
+adminRoutes.use('/user-admin', userRoutes);
+adminRoutes.use('/product', productRoutes);
+adminRoutes.use('/cart', cartRoutes);
+adminRoutes.use('/review', reviewRoutes);
+module.exports = adminRoutes; 
