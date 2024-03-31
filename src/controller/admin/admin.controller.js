@@ -9,6 +9,10 @@ exports.registerAdmin = async (req, res) => {
         if(admin) {
             return res.status(400).json({ message: 'Admin is already Registerd...' });
         }
+        if(req.file){
+            req.body.profileImage = req.file.path.replace(/\\/g, '/')
+        }
+        
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
         admin = await userService.addNewUser({ 
             ...req.body,
@@ -70,6 +74,9 @@ exports.updateAdmin = async (req, res) => {
         let admin = await userService.getUserById(req.query.adminId);
         if(!admin){
             return res.status(404).json({ message: 'Admin is not found...' });
+        }
+        if(req.file){
+            req.body.profileImage = req.file.path.replace(/\\/g, '/')
         }
         admin = await userService.updateUser(admin._id, { ...req.body });
         res.status(200).json({ admin, message: 'Admin updated successfully...✅' });

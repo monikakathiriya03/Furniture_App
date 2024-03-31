@@ -10,6 +10,9 @@ exports.registerUser = async(req, res) => {
         if(user){
             return res.status(400).json({ message: `User is Already Registered....`});
         }
+        if(req.file){
+            req.body.profileImage = req.file.path.replace(/\\/g, '/')
+        }
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
         // console.log(hashPassword);
         user = await userService.addNewUser({
@@ -76,6 +79,9 @@ exports.updateUser = async(req, res) => {
         let user = await userService.getUserById(req.user._id);
         if(!user){
             return res.status(404).json({ message: `User Not Found...`});
+        }
+        if(req.file){
+            req.body.profileImage = req.file.path.replace(/\\/g, '/')
         }
         user = await userService.updateUser(user._id, { ...req.body });
         res.status(201).json({user, message: `User Details Updated SuccesFully...✅`});

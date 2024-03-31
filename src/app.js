@@ -13,6 +13,11 @@ app.use(morgan("dev"));
 let imagePath = path.join(__dirname, "public", "images");
 app.use("/src/public/images", express.static(imagePath));
 
+// Path For Set Profile 
+let profileImageimagePath = path.join(__dirname, 'public','profile');
+app.use('/src/public/profile', express.static(profileImageimagePath));
+
+
 // Admin Routes
 const adminsRoutes = require("./routes/admin/index.routes");
 app.use("/api/admin", adminsRoutes);
