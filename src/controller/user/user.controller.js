@@ -112,21 +112,21 @@ exports.updatePassword = async(req, res) => {
             return res.json({ message: `User Not Found...`});
         }
         // let comparePassword = await bcryptjs.compare(req.body.oldPassword, user.password);
-        // let oldPassword = req.body.oldPassword;
+        let oldPassword = req.body.oldPassword;
         // if (!oldPassword) {
         //     return res.json({ message: `Old Password is not Found.. Please Try Again.`});
         // }
         // if (!comparePassword) {
         //     return res.json({ message: `Old Password is not Match.. Please Try Again.`});
         // }
-        // let newPassword = req.body.newPassword;
+        let newPassword = req.body.newPassword;
         // if (!newPassword) {
         //     return res.json({ message: `New Password is not Found.. Please Try Again.`});
         // }
         if(newPassword === oldPassword){
             return res.json({ message: `Old Password And New Password Are Same Plase Enter Diffrent Password..`});
         }
-        // let confirmPassword = req.body.confirmPassword;
+        let confirmPassword = req.body.confirmPassword;
         // if (!confirmPassword) {
         //     return res.json({ message: `Confirm Password is not Found.. Please Try Again.`});
         // }
